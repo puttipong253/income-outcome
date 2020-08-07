@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Income;
 class IncomeController extends Controller
 {
     /**
@@ -13,7 +13,7 @@ class IncomeController extends Controller
      */
     public function index()
     {
-        //
+        return Income::get();
     }
 
     /**
@@ -34,7 +34,17 @@ class IncomeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'date' => 'required',
+            'income' => 'required',
+            'description' => 'required',
+        ]);
+        $income = new Income;
+        $income->date = $request->input('date');
+        $income->income = $request->input('income');
+        $income->description = $request->input('description');
+        $income->save();
+        return 'create successfuly';
     }
 
     /**
@@ -45,7 +55,7 @@ class IncomeController extends Controller
      */
     public function show($id)
     {
-        //
+        return Income::find($id);
     }
 
     /**
@@ -68,7 +78,16 @@ class IncomeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'date' => 'required',
+            'income' => 'required',
+            'description' => 'required',
+        ]);
+        $income = Income::find($id);
+        $income->date = $request->input('date');
+        $income->income = $request->input('income');
+        $income->description = $request->input('description');
+        $income->save();
     }
 
     /**
@@ -79,6 +98,7 @@ class IncomeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $income = Income::find($id);
+        $income->destroy($id);
     }
 }
