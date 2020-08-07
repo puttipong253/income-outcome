@@ -88,6 +88,7 @@ class IncomeController extends Controller
         $income->income = $request->input('income');
         $income->description = $request->input('description');
         $income->save();
+        return 'update successfuly';
     }
 
     /**
