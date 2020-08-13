@@ -1,7 +1,14 @@
 <template>
   <div>
     <h1>{{count}}</h1>
-    <h1>{{number}}</h1>
+   
+      <div v-for="number in numbers" :key="number.id"> 
+        {{number.date}}
+        {{number.status}}
+        {{number.count}}
+        {{number.description}}
+      </div>
+ 
     <button @click="increment">increment</button>
     <button @click="decrement">decrement</button>
     <button @click="reset">reset</button>
@@ -10,12 +17,21 @@
 </template>
 
 <script>
+import {HTTP} from '../HTTP.js'
 export default {
   data() {
     return { 
       count: 0,
-      number: 0
+      numbers: [],
+
     }
+  },
+  mounted(){
+    HTTP.get('/incomeOutcome')
+    .then(res => (
+      console.log("res",res.data[1].count),
+      this.numbers = res.data
+    ))
   },
   methods: {
     increment(){
