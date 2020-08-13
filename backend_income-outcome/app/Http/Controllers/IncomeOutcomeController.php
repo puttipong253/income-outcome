@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\IncomeOutcome;
 use Illuminate\Http\Request;
 
-class OutcomeController extends Controller
+class IncomeOutcomeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +13,7 @@ class OutcomeController extends Controller
      */
     public function index()
     {
-        //
+        return IncomeOutcome::get();
     }
 
     /**
@@ -34,7 +34,15 @@ class OutcomeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $incomeOutcome = new IncomeOutcome([
+            'date' => $request->input('date'),
+            'status' => $request->input('status'),
+            'count' => $request->input('count'),
+            'description' => $request->input('description'),
+            'balance' => $request->input('balance')
+        ]);
+        $incomeOutcome->save();
+        return $incomeOutcome;
     }
 
     /**
@@ -45,7 +53,7 @@ class OutcomeController extends Controller
      */
     public function show($id)
     {
-        //
+        return IncomeOutcome::find($id);
     }
 
     /**
@@ -68,7 +76,14 @@ class OutcomeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $incomeOutcome = IncomeOutcome::find($id);
+        $incomeOutcome->date = $request->input('date');
+        $incomeOutcome->status = $request->input('status');
+        $incomeOutcome->count = $request->input('count');
+        $incomeOutcome->description = $request->input('description');
+        $incomeOutcome->balance = $request->input('balance');
+        $incomeOutcome->save();
+        return $incomeOutcome;
     }
 
     /**
@@ -79,6 +94,8 @@ class OutcomeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $incomeOutcome = IncomeOutcome::find($id);
+        $incomeOutcome->destroy($id);
+        return 'delete successfuly';
     }
 }
